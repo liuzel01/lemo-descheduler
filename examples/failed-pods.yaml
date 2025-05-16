@@ -8,6 +8,8 @@ profiles:
         reasons:
         - "OutOfcpu"
         - "CreateContainerConfigError"
+        - "NodeAffinity"
+        - "CrashLoopBackOff"
         includingInitContainers: true
         excludeOwnerKinds:
         - "Job"

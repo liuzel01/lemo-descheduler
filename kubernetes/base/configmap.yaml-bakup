@@ -12,30 +12,18 @@ data:
       - name: ProfileName
         pluginConfig:
         - name: "DefaultEvictor"
-          args: 
-            evictLocalStoragePods: true
         - name: "RemovePodsViolatingInterPodAntiAffinity"
         - name: "RemoveDuplicates"
-        - name: "RemoveFailedPods"
-          args:
-            reasons:
-            - "OutOfcpu"
-            - "CreateContainerConfigError"
-            - "NodeAffinity"
-            - "CrashLoopBackOff"
-            includingInitContainers: true
-            excludeOwnerKinds:
-            - "Job"
-            minPodLifetimeSeconds: 360
         - name: "LowNodeUtilization"
           args:
-          # 使用绝对阈值，禁用偏差
-            useDeviationThresholds: false
             thresholds:
-              "memory": 30
+              "cpu" : 20
+              "memory": 20
+              "pods": 20
             targetThresholds:
-              "memory": 55
-
+              "cpu" : 50
+              "memory": 50
+              "pods": 50
         plugins:
           balance:
             enabled:
@@ -43,5 +31,4 @@ data:
               - "RemoveDuplicates"
           deschedule:
             enabled:
-              - "RemoveFailedPods"
               - "RemovePodsViolatingInterPodAntiAffinity"
